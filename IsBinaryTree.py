@@ -4,25 +4,28 @@ class node:
       self.left = None
       self.right = None
 
+INT_MIN = -4294967296
+INT_MAX = 4294967296
 
 def check_binary_search_tree_(root):
-    if root is None:
+    return check_btree(root, INT_MIN, INT_MAX)
+
+def check_btree(node, min, max):
+    if node is None:
         return True
-    if root.left is not None and root.data <= root.left.data:
+    if node.data < min or node.data > max:
         return False
-    if root.right is not None and root.data >= root.right.data:
-        return False
-
-    leftres = check_binary_search_tree_(root.left)
-    rightres = check_binary_search_tree_(root.right)
-
-    return leftres and rightres;
+    
+    return check_btree(node.left,min, node.data - 1) and check_btree(node.right, node.data + 1, max)
 
 tree = node(5)
 leftsub = node(1)
-tree.left=leftsub
-rightsub=node(3)
-tree.right=rightsub
+tree.left = leftsub
+rightsub = node(7)
+tree.right = rightsub
+
+leftrightsub = node(6)
+leftsub.right = leftrightsub
 
 result = check_binary_search_tree_(tree)
 print(result)
